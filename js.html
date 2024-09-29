@@ -1,4 +1,8 @@
 <script>
+
+    const NOTIFICACION_OK = 1;
+    const NOTIFICACION_DANGER = 2;
+    const NOTIFICACION_WARNNG = 3;
     
     function crearTablaContactos() {
         let tabla = document.getElementById('tablaContactos');
@@ -40,17 +44,18 @@
 
         tabla.appendChild(tablaBody);
 
-        tabla.classList.add('table','table-striped', 'border-3')
+        tabla.classList.add('table','table-striped', 'border-4', 'border-dark')
 
         document.getElementById('divContactos').appendChild(tabla);
 
         //mostrar notificacion de OK
-        crearNotificacion(1, 'Contactos obtenidos correctamente', 'Exito')
+        crearNotificacion(NOTIFICACION_OK, 'Contactos obtenidos correctamente', 'Exito')
 
     }
 
     function crearTablaContactosError() {
         //mostrar notificacion de error
+        crearNotificacion(NOTIFICACION_DANGER, 'No se han podido leer los contactos', 'ERROR')
     }
 
     function crearNotificacion(tipo, mensaje, titulo) {
@@ -64,11 +69,33 @@
         let notificacion = bootstrap.Toast.getOrCreateInstance(elementNotificacion);
 
         //Editar notificacion
-        iconoNotificacion.className = '';
-        iconoNotificacion.classList.add('bi', 'bi-check2-square');
         mensajeNotificacion.textContent = mensaje;
         tituloNotificacion.textContent = titulo;
-        elementNotificacion.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--color-verde-oscuro');
+
+        switch (tipo) {
+            case NOTIFICACION_OK:
+                iconoNotificacion.className = '';
+                iconoNotificacion.classList.add('bi', 'bi-check2-square');
+                elementNotificacion.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--color-verde-oscuro');
+                break;
+
+            case NOTIFICACION_DANGER:
+                iconoNotificacion.className = '';
+                iconoNotificacion.classList.add('bi', 'bi-bug');
+                elementNotificacion.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--color-rojo-oscuro');
+                break;
+
+            case NOTIFICACION_WARNNG:
+                iconoNotificacion.className = '';
+                iconoNotificacion.classList.add('bi', 'bi-exclamation-square');
+                elementNotificacion.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--color-amarillo-oscuro');
+                break;
+        
+            default:
+                break;
+        }
+
+        
 
 
         //mostrar notificacion

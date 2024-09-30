@@ -1,9 +1,5 @@
 <script>
 
-    const NOTIFICACION_OK = 1;
-    const NOTIFICACION_DANGER = 2;
-    const NOTIFICACION_WARNNG = 3;
-    
     function crearTablaContactos() {
         let tabla = document.getElementById('tablaContactos');
          if(tabla) tabla.remove();
@@ -14,7 +10,6 @@
     }
 
     function crearTablaContactosCorrectamente(obj) {
-                
 
         tabla = document.createElement('table');
         tabla.id = 'tablaContactos'
@@ -49,57 +44,45 @@
         document.getElementById('divContactos').appendChild(tabla);
 
         //mostrar notificacion de OK
-        crearNotificacion(NOTIFICACION_OK, 'Contactos obtenidos correctamente', 'Exito')
+        crearNotificacionOk('Contactos obtenidos correctamente', 'Exito')
 
     }
 
     function crearTablaContactosError() {
         //mostrar notificacion de error
-        crearNotificacion(NOTIFICACION_DANGER, 'No se han podido leer los contactos', 'ERROR')
+        crearNotificacionError('No se han podido leer los contactos', 'ERROR')
     }
 
-    function crearNotificacion(tipo, mensaje, titulo) {
+    function crearNotificacion(mensaje, titulo) {
 
-        //Obtener campos de la notificaion
-
-        let mensajeNotificacion = document.getElementById('mensajeNotificacion');
-        let tituloNotificacion = document.getElementById('tituloNotificacion');
         let elementNotificacion = document.getElementById('notificacion');
-        let iconoNotificacion = document.getElementById('iconoNotificacion');
-        let notificacion = bootstrap.Toast.getOrCreateInstance(elementNotificacion);
 
-        //Editar notificacion
-        mensajeNotificacion.textContent = mensaje;
-        tituloNotificacion.textContent = titulo;
-
-        switch (tipo) {
-            case NOTIFICACION_OK:
-                iconoNotificacion.className = '';
-                iconoNotificacion.classList.add('bi', 'bi-check2-square');
-                elementNotificacion.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--color-verde-oscuro');
-                break;
-
-            case NOTIFICACION_DANGER:
-                iconoNotificacion.className = '';
-                iconoNotificacion.classList.add('bi', 'bi-bug');
-                elementNotificacion.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--color-rojo-oscuro');
-                break;
-
-            case NOTIFICACION_WARNNG:
-                iconoNotificacion.className = '';
-                iconoNotificacion.classList.add('bi', 'bi-exclamation-square');
-                elementNotificacion.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--color-amarillo-oscuro');
-                break;
-        
-            default:
-                break;
-        }
-
-        
-
-
-        //mostrar notificacion
-        notificacion.show();
+        document.getElementById('mensajeNotificacion').textContent = mensaje;
+        document.getElementById('tituloNotificacion').textContent = titulo;
+        bootstrap.Toast.getOrCreateInstance(elementNotificacion).show();
     }
+
+    function crearNotificacionOk(mensaje, titulo) {
+        crearNotificacion(mensaje, titulo);
+        crearIconYColorNorificacion('bi-check2-square', '--color-verde-oscuro')
+    }
+
+    function crearNotificacionError(mensaje, titulo) {
+        crearNotificacion(mensaje, titulo);
+        crearIconYColorNorificacion('bi-bug', '--color-rojo-oscuro')
+    }
+
+    function crearNotificacionAdvertencia(mensaje, titulo) {
+        crearNotificacion(mensaje, titulo);
+        crearIconYColorNorificacion('bi-exclamation-square', '--color-amarillo-oscuro')
+    }
+
+    function crearIconYColorNorificacion(nombreIcon, color) {
+        let iconoNotificacion = document.getElementById('iconoNotificacion');
+        let elementNotificacion = document.getElementById('notificacion');
+
+        iconoNotificacion.classList.add('bi', nombreIcon);
+        elementNotificacion.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue(color);
+    }   
 
 </script>
